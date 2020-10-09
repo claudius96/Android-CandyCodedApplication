@@ -38,10 +38,7 @@ public class XMLTestHelpers {
             if ((this.onClick == null) ? (other.onClick != null) : !this.onClick.equals(other.onClick)) {
                 return false;
             }
-            if ((this.clickable == null) ? (other.clickable != null) : !this.clickable.equals(other.clickable)) {
-                return false;
-            }
-            return true;
+            return (this.clickable == null) ? (other.clickable == null) : this.clickable.equals(other.clickable);
         }
     }
 

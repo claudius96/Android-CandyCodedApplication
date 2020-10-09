@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -54,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
         client.get("https://vast-brushlands-23089.herokuapp.com/main/api",
                 new TextHttpResponseHandler() {
                     @Override
+                    public boolean getUseSynchronousMode() {
+                        return super.getUseSynchronousMode();
+                    }
+
+                    @Override
                     public void onFailure(int statusCode, Header[] headers, String response, Throwable throwable) {
                         Log.e("AsyncHttpClient", "response = " + response);
                     }
@@ -61,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String response) {
                         Log.d("AsyncHttpClient", "response = " + response);
-                        Gson gson = new GsonBuilder().create();;
+                        Gson gson = new GsonBuilder().create();
                         candies = gson.fromJson(response, Candy[].class);
 
                         addCandiesToDatabase(candies);
@@ -72,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -95,5 +102,10 @@ public class MainActivity extends AppCompatActivity {
 
             db.insert(CandyEntry.TABLE_NAME, null, values);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return super.onOptionsItemSelected(item);
     }
 }
